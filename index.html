@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Birthday 💖</title>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Caveat&display=swap');
+
+body{
+  margin:0;
+  background:#000;
+  font-family:'Itim',cursive;
+  overflow:hidden;
+  user-select:none;
+}
+
+#container{
+  position:relative;
+  width:100%;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  text-align:center;
+}
+
+.hidden{display:none}
+
+.photo-row{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  max-width:90%;
+  margin:15px 0;
+}
+.photo-row img{
+  height:180px;
+  border-radius:18px;
+}
+
+.heartBtn{
+  margin-top:20px;
+  width:55px;
+  height:55px;
+  background:white;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:26px;
+  cursor:pointer;
+}
+
+#finalText{
+  font-family:'Caveat',cursive;
+  font-size:24px;
+}
+
+.heart{
+  position:fixed;
+  font-size:22px;
+  animation:float 7s linear forwards;
+}
+@keyframes float{
+  from{transform:translateY(100vh);opacity:.7}
+  to{transform:translateY(-120vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="C:\Users\VANSH\Downloads\WhatsApp Audio 2026-01-11 at 6.13.45 PM.mpeg"></audio>
+
+<div id="container">
+
+  <!-- PAGE 1 -->
+  <div class="page">
+    <img src="C:\Users\VANSH\Downloads\WhatsApp Image 2026-01-11 at 6.39.53 PM.jpeg" height="220" style="border-radius:20px">
+    <h2>Hey there 🫶</h2>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page hidden">
+    <img src="C:\Users\VANSH\Downloads\WhatsApp Image 2026-01-11 at 6.39.37 PM.jpeg" height="220" style="border-radius:20px">
+    <h2>Hello <span id="username"></span> 💖</h2>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page hidden">
+    <div class="photo-row">
+      <img src="C:\Users\VANSH\Downloads\WhatsApp Image 2026-01-11 at 6.39.21 PM.jpeg">
+      <img src="C:\Users\VANSH\Downloads\WhatsApp Image 2026-01-11 at 6.39.05 PM.jpeg">
+      <img src="C:\Users\VANSH\Downloads\WhatsApp Image 2026-01-11 at 6.38.50 PM.jpeg">
+    </div>
+    <h2>Happy Birthday 🥳</h2>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page hidden">
+    <img src="C:\Users\VANSH\Downloads\WhatsApp Image 2026-01-11 at 6.38.15 PM.jpeg" height="220" style="border-radius:20px">
+    <p id="finalText">
+      May your life be full of happiness 💫<br>
+      Always keep smiling 💖<br>
+      Happy Birthday 🎂
+    </p>
+  </div>
+
+  <!-- HEART (ALWAYS PRESENT) -->
+  <div class="heartBtn" id="nextBtn">❤️</div>
+
+</div>
+
+<script>
+const pages = document.querySelectorAll(".page");
+const btn = document.getElementById("nextBtn");
+const music = document.getElementById("music");
+let current = 0;
+
+async function askName(){
+  const {value:name} = await Swal.fire({
+    title:"Your name 🩷",
+    input:"text"
+  });
+  document.getElementById("username").innerText = name || "You";
+}
+
+btn.onclick = async () => {
+  pages[current].classList.add("hidden");
+  current++;
+
+  if(current < pages.length){
+    pages[current].classList.remove("hidden");
+  }
+
+  if(current === 1){
+    await askName();
+    music.volume = 0.7;
+    music.play().catch(()=>{});
+  }
+
+  if(current === pages.length-1){
+    setInterval(rainHearts,300);
+  }
+};
+
+function rainHearts(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  h.addEventListener("animationend",()=>h.remove());
+}
+</script>
+
+</body>
+</html>
